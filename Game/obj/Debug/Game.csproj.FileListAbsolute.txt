@@ -1,0 +1,7 @@
+H:\C#\Code Master\Course 103 - Advanced\Lessons\Lesson 6\Game\bin\Debug\Game.exe.config
+H:\C#\Code Master\Course 103 - Advanced\Lessons\Lesson 6\Game\bin\Debug\Game.exe
+H:\C#\Code Master\Course 103 - Advanced\Lessons\Lesson 6\Game\bin\Debug\Game.pdb
+H:\C#\Code Master\Course 103 - Advanced\Lessons\Lesson 6\Game\obj\Debug\Game.csproj.AssemblyReference.cache
+H:\C#\Code Master\Course 103 - Advanced\Lessons\Lesson 6\Game\obj\Debug\Game.csproj.CoreCompileInputs.cache
+H:\C#\Code Master\Course 103 - Advanced\Lessons\Lesson 6\Game\obj\Debug\Game.exe
+H:\C#\Code Master\Course 103 - Advanced\Lessons\Lesson 6\Game\obj\Debug\Game.pdb

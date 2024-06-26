@@ -43,10 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\Component.cs" />
+    <Compile Include="Abstract\IComponent.cs" />
     <Compile Include="Abstract\IEngineState.cs" />
     <Compile Include="Abstract\IZoneListener.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="Externsions\EnumerableExternstions.cs" />
+    <Compile Include="Model\Components\SpriteComponent.cs" />
+    <Compile Include="Model\Entity.cs" />
     <Compile Include="Model\Zone.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -56,6 +60,7 @@
     <Compile Include="States\MainMenuState.cs" />
     <Compile Include="States\ZoneRenderer.cs" />
     <Compile Include="States\ZoneState.cs" />
+    <Compile Include="Vector3.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

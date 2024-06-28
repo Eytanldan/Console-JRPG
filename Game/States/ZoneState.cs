@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Game.Abstract;
 using Game.Model;
+using Game.Model.Components;
 
 namespace Game.States
 {
@@ -44,7 +45,7 @@ namespace Game.States
             var pos = _player.Position;
             
             if (key.Key == ConsoleKey.Escape)
-                Program.Engine.PushState(new MainMenuState());
+                Program.Engine.PushState(new MainMenuState(_player.GetComponent<PlayerComponent>().Player));
             else if (key.Key == ConsoleKey.W)
                 _zone.MoveEntity(_player, new Vector3(pos.X, pos.Y - 1, pos.Z));
             else if (key.Key == ConsoleKey.A)

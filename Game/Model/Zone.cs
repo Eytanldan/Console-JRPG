@@ -48,7 +48,22 @@ namespace Game.Model
                newPosition.Y < 0 || newPosition.Y >= Size.Y ||
                newPosition.Z < 0 || newPosition.Z >= Size.Z)
                 return;
+
+            // checks if topmost entity can be entered
+            var topmostEntity = GetTopmostEntity(newPosition);
+            if(topmostEntity != null)
+            {
+                var component = topmostEntity.GetComponent<IEntityEntranceComponent>();
+                if (component != null)
+                {
+                    if (!component.CanEnter(entity))
+                        return;
+                    
+                    component.Enter(entity);
+                }
+            }    
             
+            // empties previous position and moves entity to the new position
             _listeners.ForEach(l => l.EntityMoved(entity, newPosition));
             _entities[entity.Position.X, entity.Position.Y, entity.Position.Z] = null;
             entity.Position = newPosition;
@@ -81,6 +96,18 @@ namespace Game.Model
         {
             if (!_listeners.Remove(listener))
                 throw new ArgumentException();
+        }
+
+        private Entity GetTopmostEntity(Vector3 position)
+        {
+            for(var i = Size.Z - 1; i >= 0; i--)
+            {
+                var entity = _entities[position.X, position.Y, i];
+                if (entity != null)
+                    return entity;
+            }
+
+            return null;
         }
     }
 }

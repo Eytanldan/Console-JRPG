@@ -4,15 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Game.Abstract;
+using Game.Model;
 
 namespace Game.States
 {
     public class MainMenuState : IEngineState
     {
+        private readonly Player _player;
+
+        public MainMenuState(Player player)
+        {
+            _player = player;
+        }
+        
         public void Activate()
         {
             Console.Clear();
-            Console.WriteLine("MAIN MENU");
+            Console.WriteLine("MAIN MENU - press enter for inventory, or esc to return to game");
         }
 
         public void Deactivate()
@@ -29,6 +37,8 @@ namespace Game.States
         {
             if (key.Key == ConsoleKey.Escape)
                 Program.Engine.PopState(this);
+            else if (key.Key == ConsoleKey.Enter)
+                Program.Engine.PushState(new InventoryState(_player));
         }
     }
 }

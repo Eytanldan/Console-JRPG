@@ -17,10 +17,12 @@ namespace Game.Model
         public IEnumerable<IItem> Inventory { get { return _inventory; } }
         public IEnumerable<IAbility> Abilities { get { return _abilities; } }
         public int Hp { get; private set; }
+        public int Gold { get; private set; }
 
         public Player()
         {
             Hp = 200;
+            Gold = 50;
 
             _equippedItems = new List<IItem>();
             _inventory = new List<IItem>();
@@ -31,6 +33,18 @@ namespace Game.Model
         {
             damage = _equippedItems.Aggregate(damage, (a, i) => i.ModifyDamage(a));
             Hp -= Math.Max(0, damage.Amount);
+        }
+
+        public void AddGold(int amount)
+        {
+            Gold += amount;
+        }
+
+        public void DecreaseGold(int amount)
+        {
+            Gold -= Math.Max(0, amount);
+            if (Gold < 0)
+                Gold = 0;
         }
 
         public void AddAbility(IAbility ability)

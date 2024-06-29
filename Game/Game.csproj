@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IAbility.cs" />
+    <Compile Include="Abstract\IBarter.cs" />
     <Compile Include="Abstract\ICombatEntity.cs" />
     <Compile Include="Abstract\ICombatListener.cs" />
     <Compile Include="Abstract\Component.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Model\Ability.cs" />
     <Compile Include="Model\Combat.cs" />
     <Compile Include="Model\BasicMob.cs" />
+    <Compile Include="Model\Components\BarterComponent.cs" />
     <Compile Include="Model\Components\CombatComponent.cs" />
     <Compile Include="Model\Components\ConstantEntranceComponent.cs" />
     <Compile Include="Model\Components\DialogComponent.cs" />
@@ -70,6 +72,7 @@
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Model\Item.cs" />
     <Compile Include="Model\Player.cs" />
+    <Compile Include="Model\Barter.cs" />
     <Compile Include="Model\Zone.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

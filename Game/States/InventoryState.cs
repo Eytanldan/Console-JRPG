@@ -77,6 +77,9 @@ namespace Game.States
             Console.Clear();
             Console.WriteLine("Player Inventory");
             Console.WriteLine("--------------------------");
+            Console.WriteLine("Gold: {0}", _player.Gold);
+            Console.WriteLine("--------------------------");
+            Console.WriteLine("Equipped Items: ");
 
             var itemIndex = 0;
 

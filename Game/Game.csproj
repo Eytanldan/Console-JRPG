@@ -54,6 +54,7 @@
     <Compile Include="Abstract\IEngineState.cs" />
     <Compile Include="Abstract\IEntityEntranceComponent.cs" />
     <Compile Include="Abstract\IItem.cs" />
+    <Compile Include="Abstract\IScene.cs" />
     <Compile Include="Abstract\IZoneListener.cs" />
     <Compile Include="Damage.cs" />
     <Compile Include="Engine.cs" />
@@ -73,6 +74,8 @@
     <Compile Include="Model\Item.cs" />
     <Compile Include="Model\Player.cs" />
     <Compile Include="Model\Barter.cs" />
+    <Compile Include="Model\SceneManager.cs" />
+    <Compile Include="Model\Zone1Scene.cs" />
     <Compile Include="Model\Zone.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

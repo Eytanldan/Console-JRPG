@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Game.Abstract;
 using Game.Model.Components;
+using Game.States;
 
 namespace Game.Model
 {
     public class SceneManager
     {
-        private Player _playerModel;
-        private List<IScene> _scenes;
+        private readonly Player _playerModel;
+        private readonly List<IScene> _scenes;
 
         public Entity PlayerEntity { get; private set; }
 
@@ -25,6 +26,18 @@ namespace Game.Model
         public IScene GetFirstScene()
         {
             return _scenes[0];
+        }
+
+        public IScene GetNextScene(IScene CurrentScene)
+        {
+            for(int i = 0; i < _scenes.Count; i++)
+            {
+                if (_scenes[i] == CurrentScene)
+                    if(_scenes[i + 1] != null)
+                        return _scenes[i + 1];
+            }
+
+            return null;
         }
 
         public void Initialize()
@@ -49,9 +62,11 @@ namespace Game.Model
 
         private void PopulateSceneList()
         {
-            var scene1 = new Zone1Scene(_playerModel, PlayerEntity);
+            var scene1 = new Zone1Scene(_playerModel, PlayerEntity, this);
+            var scene2 = new Zone2Scene(_playerModel, PlayerEntity, this);
 
             _scenes.Add(scene1);
+            _scenes.Add(scene2);
 
             _scenes.ForEach(s => s.PopulateZone());
         }

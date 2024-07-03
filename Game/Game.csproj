@@ -53,6 +53,7 @@
     <Compile Include="Abstract\IDialogScreen.cs" />
     <Compile Include="Abstract\IEngineState.cs" />
     <Compile Include="Abstract\IEntityEntranceComponent.cs" />
+    <Compile Include="Abstract\IEntityTeleportComponent.cs" />
     <Compile Include="Abstract\IItem.cs" />
     <Compile Include="Abstract\IScene.cs" />
     <Compile Include="Abstract\IZoneListener.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Model\Components\DialogComponent.cs" />
     <Compile Include="Model\Components\PlayerComponent.cs" />
     <Compile Include="Model\Components\SpriteComponent.cs" />
+    <Compile Include="Model\Components\SwitchZoneComponent.cs" />
     <Compile Include="Model\Dialog.cs" />
     <Compile Include="Model\DialogScreen.cs" />
     <Compile Include="Model\Entity.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="Model\SceneManager.cs" />
     <Compile Include="Model\Zone1Scene.cs" />
     <Compile Include="Model\Zone.cs" />
+    <Compile Include="Model\Zone2Scene.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="States\BarterState.cs" />

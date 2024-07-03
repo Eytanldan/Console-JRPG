@@ -60,6 +60,10 @@ namespace Game.Model
                         return;
                     
                     component.Enter(entity);
+
+                    var teleportCheck = topmostEntity.GetComponent<IEntityTeleportComponent>();
+                    if (teleportCheck != null)
+                        newPosition = teleportCheck.NewPosition;
                 }
             }    
             

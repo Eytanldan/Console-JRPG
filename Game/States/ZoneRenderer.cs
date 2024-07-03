@@ -50,7 +50,7 @@ namespace Game.States
 
         public void EntityMoved(Entity entity, Vector3 newPosition)
         {
-            // returns if the moved entity has a sprite component
+            // returns if the moved entity doesn't have a sprite component
             var sprite = entity.GetComponent<SpriteComponent>();
             if (sprite == null)
                 return;

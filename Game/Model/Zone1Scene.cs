@@ -10,27 +10,30 @@ namespace Game.Model
 {
     public class Zone1Scene : IScene
     {
-        public Player PlayerModel { get; private set; }
-        public Entity PlayerEntity { get; private set; }
-        public Zone SceneZone { get; private set; }
+        private readonly Player _playerModel;
+        private readonly Entity _playerEntity;
+        private readonly SceneManager _sceneManager;
 
-        public Zone1Scene(Player playerModel, Entity playerEntity)
+        public Zone SceneZone { get; private set; }
+        public Vector3 StartingPosition { get; private set; }
+
+        public Zone1Scene(Player playerModel, Entity playerEntity, SceneManager sceneManager)
         {
-            PlayerModel = playerModel;
-            PlayerEntity = playerEntity;
+            _playerModel = playerModel;
+            _playerEntity = playerEntity;
+            _sceneManager = sceneManager;
+            StartingPosition = new Vector3(2, 2, 1);
         }
 
         public void PopulateZone()
         {
             var random = new Random();
 
-            PlayerEntity.Position = new Vector3(2, 2, 1);
-
             // combat instantiations
 
             var tallGrass = new Entity();
             tallGrass.AddComponent(new SpriteComponent { Sprite = '#' });
-            tallGrass.AddComponent(new CombatComponent(() => new Combat(PlayerModel, new BasicMob())));
+            tallGrass.AddComponent(new CombatComponent(() => new Combat(_playerModel, new BasicMob())));
             tallGrass.Position = new Vector3(3, 3, 0);
 
             // higher elevations instantiations
@@ -66,17 +69,23 @@ namespace Game.Model
             shopBarter.Stock.Add(new Item("Firebomb", false, true, totalDamage: 50), 30);
 
             var shopKeep = new Entity();
-            shopKeep.AddComponent(new BarterComponent(shopBarter, PlayerModel));
+            shopKeep.AddComponent(new BarterComponent(shopBarter, _playerModel));
             shopKeep.AddComponent(new SpriteComponent { Sprite = '&' });
             shopKeep.Position = new Vector3(6, 6, 0);
 
+            var exit = new Entity();
+            exit.AddComponent(new SwitchZoneComponent(_sceneManager.GetNextScene(this)));
+            exit.AddComponent(new SpriteComponent { Sprite = '&' });
+            exit.Position = new Vector3(6, 2, 0);
+
             SceneZone = new Zone("Zone 1", new Vector3(Console.WindowWidth, Console.WindowHeight, 3));
-            SceneZone.AddEntity(PlayerEntity);
+            SceneZone.AddEntity(_playerEntity);
             SceneZone.AddEntity(tallGrass);
             SceneZone.AddEntity(ceiling);
             SceneZone.AddEntity(wall);
             SceneZone.AddEntity(npc1);
             SceneZone.AddEntity(shopKeep);
+            SceneZone.AddEntity(exit);
         }
     }
 }

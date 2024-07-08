@@ -49,7 +49,6 @@ namespace Game.Model
 
         private void InstanstiatePlayer()
         {
-            
             _playerModel.AddAbility(new Ability("Fireball", 10));
             _playerModel.AddAbility(new Ability("Firestorm", 100));
             _playerModel.AddItem(new Item("Axe", false, true, totalDamage: 30));
@@ -57,14 +56,16 @@ namespace Game.Model
             
             PlayerEntity.AddComponent(new SpriteComponent { Sprite = '$' });
             PlayerEntity.AddComponent(new PlayerComponent(_playerModel));
-            PlayerEntity.Position = new Vector3(2, 2, 1);
+            PlayerEntity.Position = new Vector3(24, 20, 1);
         }
 
         private void PopulateSceneList()
         {
             var scene1 = new Zone1Scene(_playerModel, PlayerEntity, this);
             var scene2 = new Zone2Scene(_playerModel, PlayerEntity, this);
+            var kindomScene = new KingdomScene(_playerModel, PlayerEntity, this);
 
+            _scenes.Add(kindomScene);
             _scenes.Add(scene1);
             _scenes.Add(scene2);
 

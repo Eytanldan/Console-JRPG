@@ -87,5 +87,7 @@ namespace Game.Model
             SceneZone.AddEntity(shopKeep);
             SceneZone.AddEntity(exit);
         }
+
+
     }
 }

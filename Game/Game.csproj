@@ -55,6 +55,7 @@
     <Compile Include="Abstract\IEntityEntranceComponent.cs" />
     <Compile Include="Abstract\IEntityTeleportComponent.cs" />
     <Compile Include="Abstract\IItem.cs" />
+    <Compile Include="Abstract\IImage.cs" />
     <Compile Include="Abstract\IScene.cs" />
     <Compile Include="Abstract\IZoneListener.cs" />
     <Compile Include="Damage.cs" />
@@ -73,7 +74,13 @@
     <Compile Include="Model\Dialog.cs" />
     <Compile Include="Model\DialogScreen.cs" />
     <Compile Include="Model\Entity.cs" />
+    <Compile Include="Model\Images\ButtomWallImage.cs" />
+    <Compile Include="Model\Images\OpenDoorwayImage.cs" />
+    <Compile Include="Model\Images\PillarImage.cs" />
+    <Compile Include="Model\Images\ThroneImage.cs" />
+    <Compile Include="Model\Images\ThroneRoomStepsImage.cs" />
     <Compile Include="Model\Item.cs" />
+    <Compile Include="Model\KingdomScene.cs" />
     <Compile Include="Model\Player.cs" />
     <Compile Include="Model\Barter.cs" />
     <Compile Include="Model\SceneManager.cs" />

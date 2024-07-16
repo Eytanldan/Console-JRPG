@@ -13,10 +13,10 @@ namespace Game.Model.Components
         private readonly IScene _nextScene;
         public Vector3 NewPosition { get; private set; }
 
-        public SwitchZoneComponent(IScene nextScene)
+        public SwitchZoneComponent(IScene nextScene, Vector3 otherEnterPos = null)
         {
             _nextScene = nextScene;
-            NewPosition = _nextScene.StartingPosition;
+            NewPosition = otherEnterPos ?? _nextScene.StartingPosition;
         }
 
 

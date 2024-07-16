@@ -40,6 +40,18 @@ namespace Game.Model
             return null;
         }
 
+        public IScene GetPreviousScene(IScene CurrentScene)
+        {
+            for (int i = 0; i < _scenes.Count; i++)
+            {
+                if (_scenes[i] == CurrentScene)
+                    if (i > 0)
+                        return _scenes[i - 1];
+            }
+
+            return null;
+        }
+
         public void Initialize()
         {
             InstanstiatePlayer();
@@ -61,13 +73,13 @@ namespace Game.Model
 
         private void PopulateSceneList()
         {
-            var scene1 = new Zone1Scene(_playerModel, PlayerEntity, this);
-            var scene2 = new Zone2Scene(_playerModel, PlayerEntity, this);
             var kindomScene = new KingdomScene(_playerModel, PlayerEntity, this);
+            var overWorld1Scene = new Overworld1Scene(_playerModel, PlayerEntity, this);
+            var overWorld2Scene = new Overworld2Scene(_playerModel, PlayerEntity, this);
 
             _scenes.Add(kindomScene);
-            _scenes.Add(scene1);
-            _scenes.Add(scene2);
+            _scenes.Add(overWorld1Scene);
+            _scenes.Add(overWorld2Scene);
 
             _scenes.ForEach(s => s.PopulateZone());
         }

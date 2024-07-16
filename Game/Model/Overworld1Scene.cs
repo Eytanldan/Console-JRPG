@@ -10,7 +10,7 @@ using Game.Model.Images;
 
 namespace Game.Model
 {
-    public class KingdomScene : IScene
+    public class Overworld1Scene : IScene
     {
         private readonly Player _playerModel;
         private readonly Entity _playerEntity;
@@ -19,70 +19,53 @@ namespace Game.Model
         public Zone SceneZone { get; private set; }
         public Vector3 StartingPosition { get; private set; }
 
-        public KingdomScene(Player playerModel, Entity playerEntity, SceneManager sceneManager)
+        public Overworld1Scene(Player playerModel, Entity playerEntity, SceneManager sceneManager, Vector3 startPosition = null)
         {
             _playerModel = playerModel;
             _playerEntity = playerEntity;
             _sceneManager = sceneManager;
-            StartingPosition = new Vector3(2, 9, 1);
+            StartingPosition = startPosition ?? new Vector3(20, 12, 1);
         }
 
         public void PopulateZone()
         {
-            SceneZone = new Zone("Kingdom", new Vector3(Console.WindowWidth, Console.WindowHeight, 3));
+            SceneZone = new Zone("Overworld", new Vector3(Console.WindowWidth, Console.WindowHeight, 3));
 
             SetupImages();
 
-            var exitLevel = new Entity();
-            exitLevel.AddComponent(new SwitchZoneComponent(_sceneManager.GetNextScene(this)));
-            exitLevel.AddComponent(new SpriteComponent { Sprite = ' ' });
-            exitLevel.Position = new Vector3(24, 27, 0);
+            SceneZone.Entities.Where(p => p.Position.X == 45 && p.Position.Y >= 5 && p.Position.Y <= 17)
+                .ForEach(e => e.AddComponent(new SwitchZoneComponent(_sceneManager.GetNextScene(this))));
 
             SceneZone.AddEntity(_playerEntity);
-            SceneZone.AddEntity(exitLevel);
-
         }
-
 
         private void SetupImages()
         {
-            var throneImage = new ThroneImage();
-            var thronePos = new Vector3(16, 4, 0);
-            ConstructSpriteImage(thronePos, throneImage.ImageStrings);
-            AddWallMask(new Vector3(thronePos.X, thronePos.Y, thronePos.Z),
-                new Vector3(thronePos.X + throneImage.Width, thronePos.Y + throneImage.Height, thronePos.Z));
+            var backgroundImage = new OverworldBackgroundImage1();
+            ConstructSpriteImage(new Vector3(0, 0, 0), backgroundImage.ImageStrings);
 
-            var buttomWallImage = new ButtomWallImage();
-            var wallPos = new Vector3(0, 27, 0);
-            ConstructSpriteImage(wallPos, buttomWallImage.ImageStrings);
-            AddWallMask(new Vector3(wallPos.X, wallPos.Y, wallPos.Z), new Vector3(buttomWallImage.Width, wallPos.Y, wallPos.Z));
+            // left mountian wall
+            AddWallMask(new Vector3(9, 10, 0), new Vector3(9, 10, 0));
+            AddWallMask(new Vector3(9, 16, 0), new Vector3(9, 18, 0));
+            AddWallMask(new Vector3(8, 3, 0), new Vector3(8, 17, 0));
 
-            var exitDoor = new OpenDoorwayImage();
-            var exitDoorPos = new Vector3(22, 27, 0);
-            ConstructSpriteImage(exitDoorPos, exitDoor.ImageStrings);
-            AddWallMask(exitDoorPos, new Vector3(exitDoorPos.X + exitDoor.Width, exitDoorPos.Y, exitDoorPos.Z));
+            // bottom mountian wall
+            AddWallMask(new Vector3(1, 18, 0), new Vector3(50, 18, 0));
 
-            var piller1 = new PillarImage();
-            var piller1pos = new Vector3(35, 1, 0);
-            ConstructSpriteImage(piller1pos, piller1.ImageStrings);
+            // shoreline wall
+            AddWallMask(new Vector3(1, 2, 0), new Vector3(21, 2, 0));
+            AddWallMask(new Vector3(21, 1, 0), new Vector3(39, 1, 0));
+            AddWallMask(new Vector3(25, 2, 0), new Vector3(35, 2, 0));
+            AddWallMask(new Vector3(27, 3, 0), new Vector3(33, 3, 0));
+            AddWallMask(new Vector3(39, 2, 0), new Vector3(50, 2, 0));
+            AddWallMask(new Vector3(41, 3, 0), new Vector3(50, 3, 0));
+            AddWallMask(new Vector3(43, 4, 0), new Vector3(50, 4, 0));
 
-            var piller2 = new PillarImage();
-            var piller2pos = new Vector3(5, 1, 0);
-            ConstructSpriteImage(piller2pos, piller2.ImageStrings);
 
-            var stepsImage = new ThroneRoomStepsImage();
-            var stepsPos = new Vector3(0, 14, 0);
-            ConstructSpriteImage(stepsPos, stepsImage.ImageStrings);
-            AddWallMask(new Vector3(stepsPos.X, stepsPos.Y + stepsImage.Height - 1, stepsPos.Z),
-                new Vector3(stepsPos.X + stepsImage.Width, stepsPos.Y + stepsImage.Height - 1, stepsPos.Z));
-
-            var piller3 = new PillarImage();
-            var piller3pos = new Vector3(39, 7, 0);
-            ConstructSpriteImage(piller3pos, piller3.ImageStrings);
-
-            var piller4 = new PillarImage();
-            var piller4pos = new Vector3(1, 7, 0);
-            ConstructSpriteImage(piller4pos, piller4.ImageStrings);
+            var castleImage = new CastleImage();
+            var castlePos = new Vector3(14, 5, 0);
+            ConstructSpriteImage(castlePos, castleImage.ImageStrings);
+            AddWallMask(castlePos, new Vector3(castlePos.X + castleImage.Width, castlePos.Y + castleImage.Height, 0));
         }
 
         private void ConstructSpriteImage(Vector3 topRightPosition, IEnumerable<string> imageStrings)

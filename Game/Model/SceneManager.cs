@@ -52,6 +52,11 @@ namespace Game.Model
             return null;
         }
 
+        public IScene GetSceneByIndex(int index)
+        {
+            return _scenes[index];
+        }
+
         public void Initialize()
         {
             InstanstiatePlayer();
@@ -76,10 +81,12 @@ namespace Game.Model
             var kindomScene = new KingdomScene(_playerModel, PlayerEntity, this);
             var overWorld1Scene = new Overworld1Scene(_playerModel, PlayerEntity, this);
             var overWorld2Scene = new Overworld2Scene(_playerModel, PlayerEntity, this);
+            var forestScene = new ForestScene(_playerModel, PlayerEntity, this);
 
             _scenes.Add(kindomScene);
             _scenes.Add(overWorld1Scene);
             _scenes.Add(overWorld2Scene);
+            _scenes.Add(forestScene);
 
             _scenes.ForEach(s => s.PopulateZone());
         }

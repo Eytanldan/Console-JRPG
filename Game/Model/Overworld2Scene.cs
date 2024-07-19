@@ -19,19 +19,21 @@ namespace Game.Model
         public Zone SceneZone { get; private set; }
         public Vector3 StartingPosition { get; private set; }
 
-        public Overworld2Scene(Player playerModel, Entity playerEntity, SceneManager sceneManager, Vector3 startPosition = null)
+        public Overworld2Scene(Player playerModel, Entity playerEntity, SceneManager sceneManager)
         {
             _playerModel = playerModel;
             _playerEntity = playerEntity;
             _sceneManager = sceneManager;
-            StartingPosition = startPosition ?? new Vector3(2, 12, 1);
+            StartingPosition = new Vector3(2, 12, 1);
         }
 
         public void PopulateZone()
         {
             SceneZone = new Zone("Overworld", new Vector3(Console.WindowWidth, Console.WindowHeight, 3));
 
-            SetupImages();
+            SetupBackgroundImage();
+
+            SetupForestEntity();
 
             SceneZone.Entities.Where(p => p.Position.X == 0 && p.Position.Y >= 5 && p.Position.Y <= 19)
                 .ForEach(e => e.AddComponent(new SwitchZoneComponent(_sceneManager.GetPreviousScene(this), new Vector3(42, 12, 1))));
@@ -39,7 +41,28 @@ namespace Game.Model
             SceneZone.AddEntity(_playerEntity);
         }
 
-        private void SetupImages()
+        private void SetupForestEntity()
+        {
+            var forestImage = new ForestImage();
+            var forestPos = new Vector3(15, 9, 0);
+            ConstructSpriteImage(forestPos, forestImage.ImageStrings);
+            AddWallMask(new Vector3(forestPos.X + 1, forestPos.Y, 0),
+                new Vector3(forestPos.X + forestImage.Width - 1, forestPos.Y + forestImage.Height, 0));
+            
+            SceneZone.Entities.Where(p => 
+            p.Position.X == forestPos.X &&
+            p.Position.Y >= forestPos.Y &&
+            p.Position.Y <= forestPos.Y + forestImage.Height)
+                .ForEach(e => e.AddComponent(new SwitchZoneComponent(_sceneManager.GetNextScene(this))));
+
+            SceneZone.Entities.Where(p =>
+            p.Position.X == forestPos.X + forestImage.Width &&
+            p.Position.Y >= forestPos.Y &&
+            p.Position.Y <= forestPos.Y + forestImage.Height)
+                .ForEach(e => e.AddComponent(new SwitchZoneComponent(_sceneManager.GetNextScene(this))));
+        }
+
+        private void SetupBackgroundImage()
         {
             var backgroundImage = new OverworldBackgroundImage2();
             ConstructSpriteImage(new Vector3(0, 0, 0), backgroundImage.ImageStrings);
@@ -61,12 +84,6 @@ namespace Game.Model
             AddWallMask(new Vector3(32, 9, 0), new Vector3(44, 9, 0));
             AddWallMask(new Vector3(33, 10, 0), new Vector3(42, 10, 0));
             AddWallMask(new Vector3(46, 7, 0), new Vector3(50, 7, 0));
-
-
-            var forestImage = new ForestImage();
-            var forestPos = new Vector3(15, 9, 0);
-            ConstructSpriteImage(forestPos, forestImage.ImageStrings);
-            AddWallMask(forestPos, new Vector3(forestPos.X + forestImage.Width, forestPos.Y + forestImage.Height, 0));
         }
 
         private void ConstructSpriteImage(Vector3 topRightPosition, IEnumerable<string> imageStrings)

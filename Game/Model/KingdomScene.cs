@@ -24,7 +24,7 @@ namespace Game.Model
             _playerModel = playerModel;
             _playerEntity = playerEntity;
             _sceneManager = sceneManager;
-            StartingPosition = new Vector3(2, 9, 1);
+            StartingPosition = new Vector3(24, 20, 1);
         }
 
         public void PopulateZone()

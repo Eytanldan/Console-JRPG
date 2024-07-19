@@ -19,12 +19,12 @@ namespace Game.Model
         public Zone SceneZone { get; private set; }
         public Vector3 StartingPosition { get; private set; }
 
-        public Overworld1Scene(Player playerModel, Entity playerEntity, SceneManager sceneManager, Vector3 startPosition = null)
+        public Overworld1Scene(Player playerModel, Entity playerEntity, SceneManager sceneManager)
         {
             _playerModel = playerModel;
             _playerEntity = playerEntity;
             _sceneManager = sceneManager;
-            StartingPosition = startPosition ?? new Vector3(20, 12, 1);
+            StartingPosition = new Vector3(20, 12, 1);
         }
 
         public void PopulateZone()
@@ -35,6 +35,9 @@ namespace Game.Model
 
             SceneZone.Entities.Where(p => p.Position.X == 45 && p.Position.Y >= 5 && p.Position.Y <= 17)
                 .ForEach(e => e.AddComponent(new SwitchZoneComponent(_sceneManager.GetNextScene(this))));
+
+            SceneZone.Entities.Where(p => p.Position.X >= 19 && p.Position.X <= 21 && p.Position.Y == 10)
+                .ForEach(e => e.AddComponent(new SwitchZoneComponent(_sceneManager.GetPreviousScene(this), new Vector3(24, 25, 0))));
 
             SceneZone.AddEntity(_playerEntity);
         }
@@ -66,6 +69,7 @@ namespace Game.Model
             var castlePos = new Vector3(14, 5, 0);
             ConstructSpriteImage(castlePos, castleImage.ImageStrings);
             AddWallMask(castlePos, new Vector3(castlePos.X + castleImage.Width, castlePos.Y + castleImage.Height, 0));
+            ConstructSpriteImage(new Vector3(19, 10, 0), new[] { "___" });
         }
 
         private void ConstructSpriteImage(Vector3 topRightPosition, IEnumerable<string> imageStrings)

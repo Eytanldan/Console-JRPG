@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Game.Abstract;
 using Game.Externsions;
+using Game.Model.Components;
 
 namespace Game.Model
 {
@@ -60,6 +61,10 @@ namespace Game.Model
                         return;
                     
                     component.Enter(entity);
+
+                    var heightCheck = topmostEntity.GetComponent<IEntityHeightComponent>();
+                    if (heightCheck != null)
+                        newPosition = heightCheck.ChangeHeight(entity, newPosition);
 
                     var teleportCheck = topmostEntity.GetComponent<IEntityTeleportComponent>();
                     if (teleportCheck != null)

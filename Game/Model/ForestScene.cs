@@ -36,6 +36,9 @@ namespace Game.Model
             AddEntranceComponent(new Vector3(0, 10, 0), new Vector3(0, 18, 0),
                 new SwitchZoneComponent(_sceneManager.GetPreviousScene(this), new Vector3(12, 12, 1)));
 
+            AddEntranceComponent(new Vector3(49, 4, 0), new Vector3(49, 8, 0),
+                new SwitchZoneComponent(_sceneManager.GetPreviousScene(this), new Vector3(31, 12, 1)));
+
             SceneZone.AddEntity(_playerEntity);
         }
 

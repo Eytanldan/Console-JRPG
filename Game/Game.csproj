@@ -97,6 +97,7 @@
     <Compile Include="Model\KingdomScene.cs" />
     <Compile Include="Model\Overworld2Scene.cs" />
     <Compile Include="Model\Overworld1Scene.cs" />
+    <Compile Include="Model\Overworld3Scene.cs" />
     <Compile Include="Model\Player.cs" />
     <Compile Include="Model\Barter.cs" />
     <Compile Include="Model\SceneManager.cs" />

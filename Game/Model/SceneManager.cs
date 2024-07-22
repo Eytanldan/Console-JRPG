@@ -14,6 +14,9 @@ namespace Game.Model
         private readonly Player _playerModel;
         private readonly List<IScene> _scenes;
 
+        // Temp debug feature
+        private readonly int debugZoneIndex = 4;
+
         public Entity PlayerEntity { get; private set; }
 
         public SceneManager()
@@ -23,9 +26,9 @@ namespace Game.Model
             PlayerEntity = new Entity();
         }
 
-        public IScene GetFirstScene()
+        public Zone GetStartingZone()
         {
-            return _scenes[0];
+            return _scenes[debugZoneIndex].SceneZone;
         }
 
         public IScene GetNextScene(IScene CurrentScene)
@@ -63,7 +66,6 @@ namespace Game.Model
             PopulateSceneList();
         }
 
-
         private void InstanstiatePlayer()
         {
             _playerModel.AddAbility(new Ability("Fireball", 10));
@@ -71,7 +73,7 @@ namespace Game.Model
             _playerModel.AddItem(new Item("Axe", false, true, totalDamage: 30));
             _playerModel.AddItem(new Item("Bow", false, true, totalDamage: 2));
             
-            PlayerEntity.AddComponent(new SpriteComponent { Sprite = '$' });
+            PlayerEntity.AddComponent(new SpriteComponent { Sprite = '1' });
             PlayerEntity.AddComponent(new PlayerComponent(_playerModel));
             PlayerEntity.Position = new Vector3(24, 20, 1);
         }
@@ -82,11 +84,13 @@ namespace Game.Model
             var overWorld1Scene = new Overworld1Scene(_playerModel, PlayerEntity, this);
             var overWorld2Scene = new Overworld2Scene(_playerModel, PlayerEntity, this);
             var forestScene = new ForestScene(_playerModel, PlayerEntity, this);
+            var overWorld3Scene = new Overworld3Scene(_playerModel, PlayerEntity, this);
 
             _scenes.Add(kindomScene);
             _scenes.Add(overWorld1Scene);
             _scenes.Add(overWorld2Scene);
             _scenes.Add(forestScene);
+            _scenes.Add(overWorld3Scene);
 
             _scenes.ForEach(s => s.PopulateZone());
         }

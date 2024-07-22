@@ -28,7 +28,7 @@ namespace Game
             // engine instantiations
 
             Engine = new Engine();
-            Engine.PushState(new ZoneState(sceneManager.PlayerEntity, sceneManager.GetFirstScene().SceneZone));
+            Engine.PushState(new ZoneState(sceneManager.PlayerEntity, sceneManager.GetStartingZone()));
 
             while (Engine.IsRunning)
                 Engine.ProcessInput(Console.ReadKey(true));

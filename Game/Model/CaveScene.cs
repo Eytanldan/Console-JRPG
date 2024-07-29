@@ -10,7 +10,7 @@ using Game.Model.Images;
 
 namespace Game.Model
 {
-    public class Overworld3Scene : IScene
+    public class CaveScene : IScene
     {
         private readonly Player _playerModel;
         private readonly Entity _playerEntity;
@@ -19,66 +19,68 @@ namespace Game.Model
         public Zone SceneZone { get; private set; }
         public Vector3 StartingPosition { get; private set; }
 
-        public Overworld3Scene(Player playerModel, Entity playerEntity, SceneManager sceneManager)
+        public CaveScene(Player playerModel, Entity playerEntity, SceneManager sceneManager)
         {
             _playerModel = playerModel;
             _playerEntity = playerEntity;
             _sceneManager = sceneManager;
-            StartingPosition = new Vector3(2, 14, 1);
+            StartingPosition = new Vector3(10, 25, 1);
         }
 
         public void PopulateZone()
         {
-            SceneZone = new Zone("Overworld", new Vector3(Console.WindowWidth, Console.WindowHeight, 3));
+            SceneZone = new Zone("Probability Cave", new Vector3(Console.WindowWidth, Console.WindowHeight, 3));
 
             SetupImages();
 
-            AddEntranceComponent(new Vector3(0, 8, 0), new Vector3(0, 21, 0),
-                new SwitchZoneComponent(_sceneManager.GetSceneByIndex(2), new Vector3(45, 14, 1)));
-
-            AddEntranceComponent(new Vector3(18, 26, 0), new Vector3(31, 26, 0),
-                new SwitchZoneComponent(_sceneManager.GetNextScene(this)));
+            SceneZone.Entities.Where(p => p.Position.X >= 12 && p.Position.X <= 14 && p.Position.Y == 27)
+                .ForEach(e => e.AddComponent(new SwitchZoneComponent(_sceneManager.GetPreviousScene(this), new Vector3(25, 24, 1))));
 
             SceneZone.AddEntity(_playerEntity);
         }
 
         private void SetupImages()
         {
-            var backgroundImage = new OverworldBackgroundImage3();
+            var backgroundImage = new CaveBackgroundImage();
             ConstructSpriteImage(new Vector3(0, 0, 0), backgroundImage.ImageStrings);
 
-            SceneZone.Entities.Where(e => e.GetComponent<SpriteComponent>().Sprite != ' ').
-                ForEach(e => e.AddComponent(new ConstantEntranceComponent(false)));
+            AddEntranceComponent(new Vector3(28, 3, 0), new Vector3(50, 3, 0));
+            AddEntranceComponent(new Vector3(0, 8, 0), new Vector3(19, 8, 0));
+            AddEntranceComponent(new Vector3(2, 9, 0), new Vector3(2, 9, 0));
+            AddEntranceComponent(new Vector3(16, 9, 0), new Vector3(16, 9, 0));
 
-            AddEntranceComponent(new Vector3(1, 7, 0), new Vector3(1, 7, 0));
-            AddEntranceComponent(new Vector3(10, 10, 0), new Vector3(10, 10, 0));
-            AddEntranceComponent(new Vector3(41, 14, 0), new Vector3(43, 14, 0));
-            AddEntranceComponent(new Vector3(40, 20, 0), new Vector3(41, 20, 0));
-            AddEntranceComponent(new Vector3(35, 24, 0), new Vector3(37, 24, 0));
-            AddEntranceComponent(new Vector3(8, 25, 0), new Vector3(10, 25, 0));
-            AddEntranceComponent(new Vector3(12, 25, 0), new Vector3(15, 25, 0));
+            AddEntranceComponent(new Vector3(27, 3, 0), new Vector3(50, 3, 0));
+            AddEntranceComponent(new Vector3(27, 4, 0), new Vector3(29, 10, 0));
+            AddEntranceComponent(new Vector3(48, 4, 0), new Vector3(50, 10, 0));
 
-            var caveImage = new CaveImage();
-            var cavePos = new Vector3(14, 22, 0);
-            ConstructSpriteImage(cavePos, caveImage.ImageStrings);
+            SceneZone.Entities.Where(p => 
+            p.Position.X >= 0 && p.Position.X <= 50 &&
+            p.Position.Y >= 10 && p.Position.Y <= 22)
+                .Where(e => e.GetComponent<SpriteComponent>().Sprite != ' ' &&
+                e.GetComponent<SpriteComponent>().Sprite != '_')
+                .ForEach(e => e.AddComponent(new ConstantEntranceComponent(false)));
 
-            AddEntranceComponent(new Vector3(cavePos.X - 1, cavePos.Y, cavePos.Z),
-                new Vector3(cavePos.X + 3, cavePos.Y + caveImage.Height, cavePos.Z));
-            AddEntranceComponent(new Vector3(cavePos.X + 3, cavePos.Y + 1, cavePos.Z),
-                new Vector3(cavePos.X + 5, cavePos.Y + caveImage.Height, cavePos.Z));
-            AddEntranceComponent(new Vector3(cavePos.X + 5, cavePos.Y + 2, cavePos.Z),
-                new Vector3(cavePos.X + 6, cavePos.Y + caveImage.Height, cavePos.Z));
-            AddEntranceComponent(new Vector3(cavePos.X + 6, cavePos.Y + 3, cavePos.Z),
-                new Vector3(cavePos.X + 6, cavePos.Y + caveImage.Height, cavePos.Z));
+            AddEntranceComponent(new Vector3(22, 18, 0), new Vector3(22, 18, 0));
+            AddEntranceComponent(new Vector3(26, 20, 0), new Vector3(26, 20, 0));
+            AddEntranceComponent(new Vector3(31, 22, 0), new Vector3(38, 22, 0));
 
-            AddEntranceComponent(new Vector3(cavePos.X + 17, cavePos.Y + 3, cavePos.Z),
-                new Vector3(cavePos.X + 17, cavePos.Y + caveImage.Height, cavePos.Z));
-            AddEntranceComponent(new Vector3(cavePos.X + 18, cavePos.Y + 2, cavePos.Z),
-                new Vector3(cavePos.X + 19, cavePos.Y + caveImage.Height, cavePos.Z));
-            AddEntranceComponent(new Vector3(cavePos.X + 19, cavePos.Y + 1, cavePos.Z),
-                new Vector3(cavePos.X + 21, cavePos.Y + caveImage.Height, cavePos.Z));
-            AddEntranceComponent(new Vector3(cavePos.X + 21, cavePos.Y, cavePos.Z),
-                new Vector3(cavePos.X + 25, cavePos.Y + caveImage.Height, cavePos.Z));
+            AddEntranceComponent(new Vector3(0, 23, 0), new Vector3(7, 25, 0));
+            AddEntranceComponent(new Vector3(1, 25, 0), new Vector3(1, 27, 0));
+            AddEntranceComponent(new Vector3(0, 27, 0), new Vector3(12, 27, 0));
+
+            AddEntranceComponent(new Vector3(11, 23, 0), new Vector3(24, 23, 0));
+            AddEntranceComponent(new Vector3(16, 24, 0), new Vector3(24, 24, 0));
+            AddEntranceComponent(new Vector3(16, 25, 0), new Vector3(24, 27, 0));
+            AddEntranceComponent(new Vector3(15, 27, 0), new Vector3(17, 27, 0));
+
+            SceneZone.Entities.Where(p =>
+            p.Position.X >= 24 && p.Position.X <= 50 &&
+            p.Position.Y >= 24 && p.Position.Y <= 28)
+                .Where(e => e.GetComponent<SpriteComponent>().Sprite != ' ' &&
+                e.GetComponent<SpriteComponent>().Sprite != '_')
+                .ForEach(e => e.AddComponent(new ConstantEntranceComponent(false)));
+
+            AddEntranceComponent(new Vector3(47, 23, 0), new Vector3(50, 23, 0));
         }
 
         private void ConstructSpriteImage(Vector3 topRightPosition, IEnumerable<string> imageStrings)

@@ -15,7 +15,7 @@ namespace Game.Model
         private readonly List<IScene> _scenes;
 
         // Temp debug feature
-        private readonly int debugZoneIndex = 4;
+        private readonly int debugZoneIndex = 5;
 
         public Entity PlayerEntity { get; private set; }
 
@@ -85,12 +85,14 @@ namespace Game.Model
             var overWorld2Scene = new Overworld2Scene(_playerModel, PlayerEntity, this);
             var forestScene = new ForestScene(_playerModel, PlayerEntity, this);
             var overWorld3Scene = new Overworld3Scene(_playerModel, PlayerEntity, this);
+            var caveScene = new CaveScene(_playerModel, PlayerEntity, this);
 
             _scenes.Add(kindomScene);
             _scenes.Add(overWorld1Scene);
             _scenes.Add(overWorld2Scene);
             _scenes.Add(forestScene);
             _scenes.Add(overWorld3Scene);
+            _scenes.Add(caveScene);
 
             _scenes.ForEach(s => s.PopulateZone());
         }

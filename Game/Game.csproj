@@ -80,6 +80,7 @@
     <Compile Include="Model\ForestScene.cs" />
     <Compile Include="Model\Images\ButtomWallImage.cs" />
     <Compile Include="Model\Images\CaveImage.cs" />
+    <Compile Include="Model\Images\CaveBackgroundImage.cs" />
     <Compile Include="Model\Images\ForestRampImage.cs" />
     <Compile Include="Model\Images\ForestBridgeImage.cs" />
     <Compile Include="Model\Images\ForestSecondFloorImage.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Model\KingdomScene.cs" />
     <Compile Include="Model\Overworld2Scene.cs" />
     <Compile Include="Model\Overworld1Scene.cs" />
+    <Compile Include="Model\CaveScene.cs" />
     <Compile Include="Model\Overworld3Scene.cs" />
     <Compile Include="Model\Player.cs" />
     <Compile Include="Model\Barter.cs" />

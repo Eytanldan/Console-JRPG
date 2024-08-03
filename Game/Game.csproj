@@ -63,6 +63,8 @@
     <Compile Include="Engine.cs" />
     <Compile Include="Externsions\EnumerableExternstions.cs" />
     <Compile Include="Model\Ability.cs" />
+    <Compile Include="Model\Mountain2Scene.cs" />
+    <Compile Include="Model\Mountain1Scene.cs" />
     <Compile Include="Model\Combat.cs" />
     <Compile Include="Model\BasicMob.cs" />
     <Compile Include="Model\Components\BarterComponent.cs" />
@@ -79,6 +81,8 @@
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Model\ForestScene.cs" />
     <Compile Include="Model\Images\ButtomWallImage.cs" />
+    <Compile Include="Model\Images\LairEntranceBackgroundImage.cs" />
+    <Compile Include="Model\Images\MountainBackgroundImage.cs" />
     <Compile Include="Model\Images\CaveImage.cs" />
     <Compile Include="Model\Images\CaveBackgroundImage.cs" />
     <Compile Include="Model\Images\ForestRampImage.cs" />

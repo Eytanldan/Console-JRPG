@@ -63,6 +63,9 @@
     <Compile Include="Engine.cs" />
     <Compile Include="Externsions\EnumerableExternstions.cs" />
     <Compile Include="Model\Ability.cs" />
+    <Compile Include="Model\Images\HydraImage.cs" />
+    <Compile Include="Model\Images\LairBackgroundImage.cs" />
+    <Compile Include="Model\LairScene.cs" />
     <Compile Include="Model\Mountain2Scene.cs" />
     <Compile Include="Model\Mountain1Scene.cs" />
     <Compile Include="Model\Combat.cs" />

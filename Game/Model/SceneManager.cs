@@ -15,7 +15,7 @@ namespace Game.Model
         private readonly List<IScene> _scenes;
 
         // Temp debug feature
-        private readonly int debugZoneIndex = 7;
+        private readonly int debugZoneIndex = 8;
 
         public Entity PlayerEntity { get; private set; }
 
@@ -88,6 +88,7 @@ namespace Game.Model
             var caveScene = new CaveScene(_playerModel, PlayerEntity, this);
             var mountain1Scene = new Mountain1Scene(_playerModel, PlayerEntity, this);
             var mountain2Scene = new Mountain2Scene(_playerModel, PlayerEntity, this);
+            var lairScene = new LairScene(_playerModel, PlayerEntity, this);
 
             _scenes.Add(kindomScene);
             _scenes.Add(overWorld1Scene);
@@ -97,6 +98,7 @@ namespace Game.Model
             _scenes.Add(caveScene);
             _scenes.Add(mountain1Scene);
             _scenes.Add(mountain2Scene);
+            _scenes.Add(lairScene);
 
             _scenes.ForEach(s => s.PopulateZone());
         }

@@ -36,6 +36,9 @@ namespace Game.Model
             SceneZone.Entities.Where(p => p.Position.X == 0 && p.Position.Y == 21)
                 .ForEach(e => e.AddComponent(new SwitchZoneComponent(_sceneManager.GetPreviousScene(this), new Vector3(49, 3, 1))));
 
+            SceneZone.Entities.Where(p => p.Position.X == 27 && p.Position.Y == 4)
+                .ForEach(e => e.AddComponent(new SwitchZoneComponent(_sceneManager.GetNextScene(this))));
+
             SceneZone.AddEntity(_playerEntity);
         }
 

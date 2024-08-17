@@ -15,7 +15,7 @@ namespace Game.Model
         private readonly List<IScene> _scenes;
 
         // Temp debug feature
-        private readonly int debugZoneIndex = 8;
+        private readonly int debugZoneIndex = 0;
 
         public Entity PlayerEntity { get; private set; }
 

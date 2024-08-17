@@ -47,7 +47,7 @@ namespace Game.Model
             var backgroundImage = new ForestBackgroundImage();
             ConstructSpriteImage(new Vector3(0, 0, 0), backgroundImage.ImageStrings);
 
-            AddEntranceComponent(new Vector3(0, 17, 0), new Vector3(7, 17, 0),
+            AddEntranceComponent(new Vector3(1, 17, 0), new Vector3(7, 17, 0),
                 new ElevationBasedEntranceComponent(false, true));
             AddEntranceComponent(new Vector3(12, 17, 0), new Vector3(22, 17, 0),
                 new ElevationBasedEntranceComponent(false, true));
@@ -77,10 +77,14 @@ namespace Game.Model
             AddEntranceComponent(new Vector3(18, 4, 0), new Vector3(20, 4, 0));
             AddEntranceComponent(new Vector3(32, 4, 0), new Vector3(34, 4, 0));
 
+            AddEntranceComponent(new Vector3(47, 3, 0), new Vector3(47, 8, 0), new HeightAdjustmentComponent(3));
+            AddEntranceComponent(new Vector3(48, 3, 0), new Vector3(48, 8, 0), new HeightAdjustmentComponent(1));
+
             var rampImage = new ForestRampImage();
             var rampPos = new Vector3(0, 18, 2);
             ConstructSpriteImage(rampPos, rampImage.ImageStrings);
-            AddEntranceComponent(rampPos, new Vector3(rampPos.X + rampImage.Width, rampPos.Y, rampPos.Z),
+            AddEntranceComponent(new Vector3(rampPos.X + 2, rampPos.Y, rampPos.Z),
+                new Vector3(rampPos.X + rampImage.Width, rampPos.Y, rampPos.Z),
                 new ElevationBasedEntranceComponent(false, true));
             
             AddEntranceComponent(new Vector3(0, 18, 0), new Vector3(0, 24, 0));

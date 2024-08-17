@@ -62,7 +62,7 @@ namespace Game.Model
             p.Position.X == forestPos.X + forestImage.Width &&
             p.Position.Y >= forestPos.Y &&
             p.Position.Y <= forestPos.Y + forestImage.Height)
-                .ForEach(e => e.AddComponent(new SwitchZoneComponent(_sceneManager.GetNextScene(this))));
+                .ForEach(e => e.AddComponent(new SwitchZoneComponent(_sceneManager.GetNextScene(this), new Vector3(49,5,1))));
         }
 
         private void SetupBackgroundImage()

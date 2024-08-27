@@ -33,13 +33,21 @@ namespace Game.Model
 
             SetupImages();
 
-            SceneZone.Entities.Where(p => p.Position.X == 45 && p.Position.Y >= 5 && p.Position.Y <= 17)
-                .ForEach(e => e.AddComponent(new SwitchZoneComponent(_sceneManager.GetNextScene(this))));
+            var tilesToNextScene = SceneZone.Entities.Where(p => p.Position.X == 45 && p.Position.Y >= 5 && p.Position.Y <= 17).ToList();
+            tilesToNextScene.ForEach(e => e.AddComponent(new SwitchZoneComponent(_sceneManager.GetNextScene(this))));
 
-            SceneZone.Entities.Where(p => p.Position.X >= 19 && p.Position.X <= 21 && p.Position.Y == 10)
-                .ForEach(e => e.AddComponent(new SwitchZoneComponent(_sceneManager.GetPreviousScene(this), new Vector3(24, 25, 0))));
+            var tilesToPreviousScene = SceneZone.Entities.Where(p => p.Position.X >= 19 && p.Position.X <= 21 && p.Position.Y == 10).ToList();
+            tilesToPreviousScene.ForEach(e => e.AddComponent(new SwitchZoneComponent(_sceneManager.GetPreviousScene(this), new Vector3(24, 25, 0))));
+
+            SceneZone.Entities.Except(tilesToNextScene).Except(tilesToPreviousScene)
+                .ForEach(e => e.AddComponent(new EncounterChanceEntranceComponent(RandomEncounter(), 18)));
 
             SceneZone.AddEntity(_playerEntity);
+        }
+
+        private CombatComponent RandomEncounter()
+        {
+            return new CombatComponent(() => new Combat(_playerModel, new BasicMob()));
         }
 
         private void SetupImages()

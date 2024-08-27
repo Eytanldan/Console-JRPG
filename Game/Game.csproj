@@ -63,6 +63,7 @@
     <Compile Include="Engine.cs" />
     <Compile Include="Externsions\EnumerableExternstions.cs" />
     <Compile Include="Model\Ability.cs" />
+    <Compile Include="Model\Components\EnconterChanceEntranceComponent.cs" />
     <Compile Include="Model\Images\HydraImage.cs" />
     <Compile Include="Model\Images\LairBackgroundImage.cs" />
     <Compile Include="Model\LairScene.cs" />

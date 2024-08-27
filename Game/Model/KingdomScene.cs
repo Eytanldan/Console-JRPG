@@ -38,11 +38,29 @@ namespace Game.Model
             exitLevel.AddComponent(new SpriteComponent { Sprite = ' ' });
             exitLevel.Position = new Vector3(24, 27, 0);
 
+            SetupKingDialog();
+
             SceneZone.AddEntity(_playerEntity);
             SceneZone.AddEntity(exitLevel);
-
         }
 
+        private void SetupKingDialog()
+        {
+            var dialog = new Dialog(
+                new DialogScreen("King 0: You must travel to the Hydra's lair to    save the princess.", nextScreens: new Dictionary<string, IDialogScreen>
+                {
+                    {"...", new DialogScreen("King 0: It is located on top of Algebra mountain  to the west of the castle.") }
+                }));
+
+            var emptyImageRow = new[] { "                                                 " };
+
+            int entityHeight = 18;
+
+            ConstructSpriteImage(new Vector3(0, entityHeight, 0), emptyImageRow);
+
+            SceneZone.Entities.Where(p => p.Position.X >= 0 && p.Position.X <= 49 && p.Position.Y == entityHeight)
+                .ForEach(e => e.AddComponent(new DialogComponent(dialog)));
+        }
 
         private void SetupImages()
         {

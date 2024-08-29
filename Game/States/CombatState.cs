@@ -12,7 +12,9 @@ namespace Game.States
     {
         private readonly Combat _combat;
         private int _selectedOption;
+        private int _lastSelectedAttack;
         private bool _combatEnded;
+        private bool isSelectingTarget;
 
         public CombatState(Combat combat)
         {
@@ -23,9 +25,18 @@ namespace Game.States
         public void ProcessInput(ConsoleKeyInfo key)
         {
             var abilityCount = _combat.Player.Abilities.Count();
-            var itemCount = _combat.Player.Inventory.Where(i => i.CanUse).Count();
-            var totalCount = abilityCount + itemCount;
-            
+            int totalCount;
+
+            if(isSelectingTarget)
+            {
+                totalCount = _combat.Enemies.Where(e => e.Hp > 0).Count();
+            }
+            else
+            {
+                var itemCount = _combat.Player.Inventory.Where(i => i.CanUse).Count();
+                totalCount = abilityCount + itemCount;
+            }
+
             if (key.Key == ConsoleKey.W)
             {
                 if (_selectedOption > 0)
@@ -38,14 +49,11 @@ namespace Game.States
             }
             else if (key.Key == ConsoleKey.Spacebar)
             {
-                if (_selectedOption < abilityCount)
-                    _combat.UseAbility(_combat.Player.Abilities.ElementAt(_selectedOption));
-                else
-                    _combat.UseItem(_combat.Player.Inventory.Where(i => i.CanUse).ElementAt(_selectedOption - abilityCount));
+                SelectOption(isSelectingTarget);
             }
 
             if(!_combatEnded)
-                Render();
+                RenderMode(isSelectingTarget);
         }
 
         public void DisplayMessage(string message)
@@ -79,18 +87,63 @@ namespace Game.States
             
         }
 
+        public void Dispose()
+        {
+            _combat.RemoveListener(this);
+        }
+
+        private void SelectOption(bool onTargetSelect)
+        {
+            if(onTargetSelect)
+            {
+                SelectTarget();
+                _selectedOption = 0;
+            }
+            else
+            {
+                _lastSelectedAttack = _selectedOption;
+                _selectedOption = 0;
+            }
+
+            isSelectingTarget = !isSelectingTarget;
+        }
+
+        private void SelectTarget()
+        {
+            var abilityCount = _combat.Player.Abilities.Count();
+
+            if (_lastSelectedAttack < abilityCount)
+                _combat.UseAbility(_combat.Player.Abilities.ElementAt(_lastSelectedAttack), _combat.Enemies.Where(e => e.Hp > 0)
+                    .ElementAt(_selectedOption));
+            else
+                _combat.UseItem(_combat.Player.Inventory.Where(i => i.CanUse).ElementAt(_lastSelectedAttack - abilityCount),
+                    _combat.Enemies.Where(e => e.Hp > 0).ElementAt(_selectedOption));
+        }
+
+        private void RenderMode(bool isRenderingTargts)
+        {
+            if(isRenderingTargts)
+            {
+                RenderTargets();
+            }
+            else
+            {
+                Render();
+            }
+        }
+
         private void Render()
         {
             RenderHeader();
 
             var index = 0;
 
-            foreach (var abillity in _combat.Player.Abilities)
+            foreach (var ability in _combat.Player.Abilities)
             {
                 if (_selectedOption == index)
                     ColorConsole(true);
 
-                Console.WriteLine(abillity.Name);
+                Console.WriteLine(ability.Name);
                 index++;
                 ColorConsole(false);
             }
@@ -107,16 +160,36 @@ namespace Game.States
             }
         }
 
+        private void RenderTargets()
+        {
+            RenderHeader();
+
+            var index = 0;
+
+            foreach (var enemy in _combat.Enemies.Where(e => e.Hp > 0))
+            {
+                if (_selectedOption == index)
+                    ColorConsole(true);
+
+                Console.WriteLine(enemy.Name);
+                index++;
+                ColorConsole(false);
+            }
+            
+        }
+
         private void RenderHeader()
         {
             Console.Clear();
-            Console.WriteLine("You (hp: {0}) vs {1} (hp: {2})", _combat.Player.Hp, _combat.Entity.Name, _combat.Entity.Hp);
-            Console.WriteLine("----------------------");
-        }
+            Console.WriteLine("You (hp: {0}) vs {1} (hp: {2})", _combat.Player.Hp, _combat.Enemies.First().Name, _combat.Enemies.First().Hp);
 
-        public void Dispose()
-        {
-            _combat.RemoveListener(this);
+            if(_combat.Enemies.Count() > 1)
+                foreach (var enemy in _combat.Enemies.Skip(1))
+                {
+                    Console.WriteLine("                 {0} (hp: {1})", enemy.Name, enemy.Hp);
+                }
+
+            Console.WriteLine("----------------------");
         }
 
         private void ColorConsole(bool selected)

@@ -47,7 +47,7 @@ namespace Game.Model
 
         private CombatComponent RandomEncounter()
         {
-            return new CombatComponent(() => new Combat(_playerModel, new BasicMob()));
+            return new CombatComponent(() => new Combat(_playerModel, new[] { new BasicMob(), new BasicMob(), new BasicMob() }));
         }
 
         private void SetupImages()

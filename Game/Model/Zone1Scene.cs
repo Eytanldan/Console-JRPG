@@ -33,7 +33,7 @@ namespace Game.Model
 
             var tallGrass = new Entity();
             tallGrass.AddComponent(new SpriteComponent { Sprite = '#' });
-            tallGrass.AddComponent(new CombatComponent(() => new Combat(_playerModel, new BasicMob())));
+            tallGrass.AddComponent(new CombatComponent(() => new Combat(_playerModel, new[] { new BasicMob() })));
             tallGrass.Position = new Vector3(3, 3, 0);
 
             // higher elevations instantiations

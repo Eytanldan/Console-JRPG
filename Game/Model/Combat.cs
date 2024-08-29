@@ -10,17 +10,19 @@ namespace Game.Model
     public class Combat
     {
         private readonly List<ICombatListener> _listeners;
+        private int enemyCount;
         public Player Player { get; private set; }
-        public ICombatEntity Entity { get; private set; }
+        public IEnumerable<ICombatEntity> Enemies { get; private set; }
 
-        public Combat(Player player, ICombatEntity entity)
+        public Combat(Player player, IEnumerable<ICombatEntity> enemies)
         {
             _listeners = new List<ICombatListener>();
             Player = player;
-            Entity = entity;
+            Enemies = enemies;
+            enemyCount = Enemies.Count();
         }
 
-        public void UseItem(IItem item)
+        public void UseItem(IItem item, ICombatEntity target)
         {
             if (!item.CanUse)
             {
@@ -28,36 +30,44 @@ namespace Game.Model
                 return;
             }
 
-            PerformAction(item.GetDamage(Entity));
+            PerformAction(item.GetDamage(target), target);
             
         }
 
-        public void UseAbility(IAbility ability)
+        public void UseAbility(IAbility ability, ICombatEntity target)
         {
-            PerformAction(ability.GetDamage(Entity));
+            PerformAction(ability.GetDamage(target), target);
         }
 
-        private void PerformAction(Damage damage)
+        private void PerformAction(Damage damage, ICombatEntity target)
         {
             _listeners.ForEach(f => f.DisplayMessage(
-                Entity.Name + " took " + damage.Amount + " damage from " + damage.Text));
+                target.Name + " took " + damage.Amount + " damage from " + damage.Text));
 
-            Entity.TakeDamage(damage);
-            if (Entity.Hp <= 0)
+            target.TakeDamage(damage);
+            if (target.Hp <= 0)
             {
-                _listeners.ForEach(f => f.DisplayMessage(Entity.Name + " died"));
-                //_listeners.ForEach(f => f.EndCombat()); // contiues to loop after disposing the combat state causing exception
-                _listeners.First().EndCombat(); // alterntive to commented line above, seems to work fine
-                return;
+                _listeners.ForEach(f => f.DisplayMessage(target.Name + " died"));
+                enemyCount--;
+                
+                if(enemyCount <= 0)
+                {
+                    //_listeners.ForEach(f => f.EndCombat()); // contiues to loop after disposing the combat state causing exception
+                    _listeners.First().EndCombat(); // alterntive to commented line above, seems to work fine
+                    return;
+                }
             }
 
-            damage = Entity.GetDamage(Player);
-            _listeners.ForEach(f => f.DisplayMessage("Player took " + damage.Amount + " damage from " + damage.Text));
-            Player.TakeDamage(damage);
-
-            if (Player.Hp <= 0)
+            foreach(var enemy in Enemies.Where(e => e.Hp > 0))
             {
-                _listeners.ForEach(f => f.PlayerDied());
+                damage = enemy.GetDamage(Player);
+                _listeners.ForEach(f => f.DisplayMessage("Player took " + damage.Amount + " damage from " + damage.Text));
+                Player.TakeDamage(damage);
+
+                if (Player.Hp <= 0)
+                {
+                    _listeners.ForEach(f => f.PlayerDied());
+                }
             }
         }
 
